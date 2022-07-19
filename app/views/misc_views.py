@@ -84,7 +84,7 @@ def signup():
 
 @main_blueprint.route('/booking/<user_id>')
 def booking(user_id):
-    schedules = models.Schedule.query.all()
+    schedules = models.Schedule.query.filter_by(fk_user=user_id).all()
     print("schedules")
     print(schedules)
 
