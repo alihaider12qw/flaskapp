@@ -1,0 +1,227 @@
+{% extends "common/global_base.html" %}
+
+{% block content %}
+
+<nav class="navbar navbar-light navbar-expand-lg" style="background-color: #1ebfbc;height: 160px;">
+    <a class="navbar-brand pl-5" href="#">
+        <img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse w-100" id="navbarSupportedContent" style="background-color: transparent;">
+        <ul class="nav justify-content-center" style="margin-left: auto;">
+            <li class="nav-item">
+                <a class="nav-link text-light active" href="#">Doctors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light " href="#">Appointments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light " href="#">Other Features</a>
+            </li>
+        </ul>
+
+        <div class="my-2 my-lg-0" style="float: right;text-align: right;margin-left: auto;">
+            <button type="button" class="btn btn-link mr-3" onclick="window.location.href='./index.html'"
+                style="border: 1px solid;">Logout</button>
+        </div>
+
+    </div>
+</nav>
+
+<div class="container col-md-12 w-100 p-5">
+    <div class="row pl-5 pt-3">
+        <div class="col-md-3 m-auto">
+            <h1 style="font-weight: bold;margin-bottom: 2rem;">Dr. John Doe</h1>
+            <div class="card w-100" style="background: transparent;border-radius: 10px;">
+                <div class="card-body w-100 text-center">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/doc5.jpeg') }}" alt="Card image cap"
+                        style="height: 91px;width: 91px;border-radius: 50%;object-fit: cover;">
+                    <h5 class="card-title mt-2 mb-0">Dr. John Doe</h5>
+                    <p class="card-text font-weight-light" style="font-size: 14px;">Heart Surgeon</p>
+
+                    <hr class="solid" style="border: 1px solid rgba(0,0,0,.125);margin-bottom: 2rem;margin-top: 2rem;">
+
+                    <span>4.5 Rating</span>
+                    <div style="margin-left: auto;margin-bottom: 1rem;">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pl-5 pt-3">
+        <div class="col-md-6" style="border-right: 1px solid #9D9D9D;padding: 40px;padding-top: 80px;">
+            <div>
+                <h5>Qualification</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+            </div>
+            <div class="mt-5">
+                <h5>Charges (per hour)</h5>
+                <p>20 USD</p>
+            </div>
+        </div>
+        <div class="col-md-6" style="padding: 40px;padding-top: 80px;">
+            <p class="font-weight-bold pl-2" style="">Reviews</p>
+            <div class="card bg-light mb-3" style="border-radius: 8px;">
+                <div class="card-header d-flex w-100 font-weight-bold"
+                    style="border: none;background: none;padding-bottom: 0;padding-left: 2rem;">
+                    <div style="border-bottom: 1px solid #D6D6D6;padding-bottom: 8px;">Patient Name</div>
+                    <div class="" style="/* float: right; */margin-left: auto;">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" style="color: #6e6e6e;">Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
+            </div>
+            <div class="card bg-light mb-3" style="border-radius: 8px;">
+                <div class="card-header d-flex w-100 font-weight-bold"
+                    style="border: none;background: none;padding-bottom: 0;padding-left: 2rem;">
+                    <div style="border-bottom: 1px solid #D6D6D6;padding-bottom: 8px;">Patient Name</div>
+                    <div class="" style="/* float: right; */margin-left: auto;">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" style="color: #6e6e6e;">Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
+            </div>
+            <div class="card bg-light mb-3" style="border-radius: 8px;">
+                <div class="card-header d-flex w-100 font-weight-bold"
+                    style="border: none;background: none;padding-bottom: 0;padding-left: 2rem;">
+                    <div style="border-bottom: 1px solid #D6D6D6;padding-bottom: 8px;">Patient Name</div>
+                    <div class="" style="/* float: right; */margin-left: auto;">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" style="color: #6e6e6e;">Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<section id="footer" class="" style="padding: 60px 0;background-color: #1ebfbc;">
+    <div class="container">
+        <div class="row text-center text-xs-center text-sm-left text-md-left text-light">
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5>Company</h5>
+                <ul class="list-unstyled quick-links text-light">
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            Home</a>
+                    </li>
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            About</a>
+                    </li>
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5>Explore</h5>
+                <ul class="list-unstyled quick-links">
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            Terms &amp; Conditions</a>
+                    </li>
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            Privacy Policy</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5>Social Media</h5>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <ul class="pl-0">
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#">
+                                    <i class="fa fa-facebook">
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#">
+                                    <i class="fa fa-twitter">
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#">
+                                    <i class="fa fa-instagram">
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#">
+                                    <i class="fa fa-google-plus">
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#" target="_blank">
+                                    <i class="fa fa-envelope">
+                                    </i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+					<p><u><a href="https://www.nationaltransaction.com/">National Transaction Corporation</a></u> is a Registered MSP/ISO of Elavon, Inc. Georgia [a wholly owned subsidiary of U.S. Bancorp, Minneapolis, MN]</p>
+					<p class="h6">© All right Reversed.<a class="text-green ml-2" href="https://www.sunlimetech.com" target="_blank">Sunlimetech</a></p>
+				</div>
+				<hr>
+			</div>	 -->
+    </div>
+</section>
+
+{% endblock %}

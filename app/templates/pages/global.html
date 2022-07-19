@@ -1,151 +1,348 @@
 {% extends "common/global_base.html" %}
 
 {% block content %}
-    <header class="bg-primary">
-        <div class="container h-100">
-            <div class="row h-100">
-                <div class="col-12">
-                    <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center">
-                        <h1 class="display-4">Welcome to FlaskApp</h1>
-                        <p class="lead">Quickly get started with Flask, Flask-User, and an open source theme.</p>
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-6 mx-auto">
-                                <div class="input-group mb-3">
-                                  <input type="text" class="form-control form-control-lg" placeholder="your@email">
-                                  <div class="input-group-append">
-                                    <button class="btn btn-outline-light btn-lg rounded-right" type="button">Sign-up</button>
-                                  </div>
-                                </div>
-                            </div>
+
+
+<nav class="navbar navbar-light navbar-expand-lg" style="background-color: #1ebfbc;height: 160px;">
+    <a class="navbar-brand pl-5" href="#">
+        <img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse w-100" id="navbarSupportedContent" style="background-color: transparent;">
+        <ul class="nav justify-content-center" style="margin-left: auto;">
+            <li class="nav-item">
+                <a class="nav-link text-light active" href="#">Doctors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light " href="#">Appointments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light " href="#">Other Features</a>
+            </li>
+        </ul>
+
+        <div class="my-2 my-lg-0" style="float: right;text-align: right;margin-left: auto;">
+            <button type="button" class="btn btn-link mr-3" onclick="window.location.href='login'"
+                style="border: 1px solid;">
+                Sign in
+            </button>
+        </div>
+
+    </div>
+</nav>
+
+<!-- Modals -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Select Timeslot</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal1closer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p style="margin: 2px 0;margin-top: 0.5rem;font-weight: bold;">Select date</p>
+                    <div class="input-group date"
+                        style="border: 1px solid;color: #6c757d; border-color: #6c757db8;border-radius: 30px; width: fit-content;">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"
+                                style="background: transparent;border: none;font-size: 12px;">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                <!-- <span class="fa fa-calend"></span> -->
+                            </span>
                         </div>
+                        <input type="text" class="form-control-filter" name="first_name">
+                    </div>
+
+                </div>
+                <div class="row ml-1">
+                    <div class="mr-3">
+                        <p style="margin: 2px 0;margin-top: 1.5rem;font-weight: bold;">Start time</p>
+                        <div class="input-group time"
+                            style="border: 1px solid;color: #6c757d; border-color: #6c757db8;border-radius: 30px; width: 182px;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"
+                                    style="background: transparent;border: none;font-size: 12px;">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    <!-- <span class="fa fa-calend"></span> -->
+                                </span>
+                            </div>
+                            <input type="time" class="form-control-filter" name="first_name">
+                        </div>
+
+                    </div>
+                    <div>
+                        <p style="margin: 2px 0;margin-top: 1.5rem;font-weight: bold;">End time</p>
+                        <div class="input-group time"
+                            style="border: 1px solid;color: #6c757d; border-color: #6c757db8;border-radius: 30px; width: 182px;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"
+                                    style="background: transparent;border: none;font-size: 12px;">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    <!-- <span class="fa fa-calend"></span> -->
+                                </span>
+                            </div>
+                            <input type="time" class="form-control-filter" name="first_name">
+                        </div>
+
                     </div>
                 </div>
             </div>
+            <div class="modal-footer " style="justify-content: center;margin-top: 1rem;margin-bottom: 0.5rem;">
+                <button type="button" onclick="$('#modal1closer').click()" class="btn btn-info"
+                    style="border-radius: 10px;padding-left: 1.5rem;padding-right: 1.5rem;" data-toggle="modal"
+                    data-target="#exampleModalCenter2">
+                    Book now
+                </button>
+            </div>
         </div>
-    </header>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary" id="navbar1">
-        <div class="container">
-            <a class="navbar-brand mr-1 mb-1 mt-0" href="../">Bootstrap 4</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-                <span class="navbar-toggler-icon"></span>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter2Title"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenter2Title">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your appointment has been successfully booked.
+                <br />
+                We have received your request. We'll be in touch soon.
+                <br />
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modals -->
+
+<div class="container mt-5">
+    <p style="font-size: 22px;border-bottom: 1px solid black;width: fit-content;">
+        Welcome to Doctor Appointment
+        Portal!
+    </p>
+    <div>
+        <div class="w-100 text-center" style="margin-top: 4rem;">
+            <h2 class="font-weight-bold">Our Team Of Doctors</h2>
+        </div>
+
+        {# <div class="filters row my-5" style="height: 31px;font-size: 14px !important;justify-content: space-between;">
+
+            <p class="filter-text">Area</p>
+            <div class="dropdown">
+                <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 11px;">
+                    abc street
+                </button>
+                <div class="dropdown-menu filter-select" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
+                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 34px, 0px);">
+                    <a class="dropdown-item" href="#">abc street</a>
+                    <a class="dropdown-item" href="#">abc street</a>
+                </div>
+            </div>
+
+            <p class="filter-text">Hospital</p>
+            <div class="dropdown">
+                <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 11px;">
+                    xyz hospital
+                </button>
+                <div class="dropdown-menu filter-select" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
+                    style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                    <a class="dropdown-item" href="#">xyz hospital</a>
+                    <a class="dropdown-item" href="#">xyz hospital</a>
+                    <a class="dropdown-item" href="#">xyz hospital</a>
+                </div>
+            </div>
+
+            <p class="filter-text">Category</p>
+            <div class="dropdown">
+                <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 11px;">
+                    Heart Surgeon
+                </button>
+                <div class="dropdown-menu filter-select" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
+                    style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                    <a class="dropdown-item" href="#">Heart Surgeon</a>
+                    <a class="dropdown-item" href="#">Heart Surgeon</a>
+                    <a class="dropdown-item" href="#">Heart Surgeon</a>
+                </div>
+            </div>
+
+            <div class="input-group"
+                style="border: 1px solid;color: #6c757d; border-color: #6c757d;width: auto;border-radius: 5px; width: 275px;height: 30px;margin-left: 20px;">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" style="background: transparent;border: none;font-size: 12px;">
+                        <span class="fa fa-search"></span>
+                    </span>
+                </div>
+                <input type="text" class="form-control-filter" name="first_name"
+                    placeholder="Search doctors by name or title">
+            </div>
+
+            <div class="btn-group btn-group-toggle" data-toggle="buttons"
+                style="height: 30px;margin-left: 10px;border-radius: 7px;">
+                <label class="btn btn-outline-info active" style="font-size: 11px;width: 65px;">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked=""> All
+                </label>
+                <label class="btn btn-outline-info" style="font-size: 11px;width: 65px;">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Male
+                </label>
+                <label class="btn btn-outline-info" style="font-size: 11px;width: 65px;">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Female
+                </label>
+            </div>
+
+            <button type="button" class="btn btn-info"
+                style="font-size: 11px;border-radius: 20px;padding-left: 25px;padding-right: 25px;margin-left: 14px;">
+                Submit
             </button>
-            <div class="navbar-collapse collapse justify-content-center" id="collapsingNavbar">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#buttons">Buttons</a>
+
+        </div> #}
+
+        <div class="container">
+            <div class="row my-5">
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="card w-100" style="background: transparent;border-radius: 10px;border-color: #1ebfbc;">
+                        <div class="card-body w-100 text-center">
+                            <img class="card-img-top" src="{{ url_for('static', filename='images/doc5.jpeg') }}" alt="Card image cap"
+                                style="height: 91px;width: 91px;margin: 0 auto;border-radius: 50%;object-fit: cover;">
+                            <h5 class="card-title mt-2 mb-0">Dr. John Doe</h5>
+                            <p class="card-text font-weight-light" style="font-size: 14px;">Heart Surgeon</p>
+
+                            <hr class="solid" style="border: 1px solid rgba(0,0,0,.125);">
+
+                            <button type="button" class="btn btn-outline-info w-100"
+                                style="border-radius: 20px;margin-bottom: 1rem;font-size: 14px;"
+                                onclick="window.location.href='doctor_profile'">
+                                View Profile
+                            </button>
+                            <button type="button" class="btn btn-info w-100" data-toggle="modal"
+                                data-target="#exampleModalCenter"
+                                style="border-radius: 20px; margin-bottom: 1rem; font-size: 14px;">
+                                Book
+                                Appointment
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<section id="footer" class="" style="padding: 60px 0;background-color: #1ebfbc;">
+    <div class="container">
+        <div class="row text-center text-xs-center text-sm-left text-md-left text-light">
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5>Company</h5>
+                <ul class="list-unstyled quick-links text-light">
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            Home
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#navs">Navs</a>
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            About
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#cards">Cards</a>
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            Contact
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#modals">Modals</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#typography">Typography</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#forms">Forms</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#grid">Grid</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="url_for('user.login')">Sign In / Signup</a>
-                    </li>                              
                 </ul>
             </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5>Explore</h5>
+                <ul class="list-unstyled quick-links">
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            Terms &amp; Conditions
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link p-0 font-weight-light text-light" href="#">
+                            Privacy Policy
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5>Social Media</h5>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <ul class="pl-0">
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#">
+                                    <i class="fa fa-facebook">
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#">
+                                    <i class="fa fa-twitter">
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#">
+                                    <i class="fa fa-instagram">
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#">
+                                    <i class="fa fa-google-plus">
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="nav-link p-0" href="#" target="_blank">
+                                    <i class="fa fa-envelope">
+                                    </i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr>
+                </div>
+            </div>
         </div>
-    </nav> 
-    <main>
-        <section class="container">
-            <div class="row">
-                <div class="col-12 my-auto">
-                    <div class="row text-center">
-                        <div class="col-lg-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                    <h1 class="display-2 text-primary"><span class="ion ion-ios-snow-outline"></span></h1>
-                                    <h4 class="card-title text-primary">Unique</h4>
-                                    <p class="card-text">Don't like that typical Bootstrap look? Each theme has a custom look-and-feel, while maximizing use of Bootstrap without extensive additional CSS & JS.</p>
-                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                    <h1 class="display-2 text-primary"><span class="ion ion-ios-tablet-portrait-outline"></span></h1>
-                                    <h4 class="card-title text-primary">Responsive</h4>
-                                    <p class="card-text">Based on mobile-first Bootstrap 4, all themes are 100% responsive and designed to look great on everything from smartphones to tablets to desktops..</p>
-                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                    <h1 class="display-2 text-primary"><span class="ion ion-ios-checkmark-circle-outline"></span></h1>
-                                    <h4 class="card-title text-primary">Consistent</h4>
-                                    <p class="card-text">Themes are crafted with care for design and performance. All themes are built on modern HTML5 & CSS3 standards to ensure consistency and cross-browser support.</p>
-                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section id="cards" class="container pb-5">
-            <div class="d-flex my-3">
-                <div class="jumbotron w-100 py-5 mx-auto">
-                    <h1>Themestr.app</h1>
-                    <h4>Theme Builder for Bootstrap</h4>
-                    <p class="lead">
-                        Rapidy build custom themes for Bootstrap, the world's most 
-                        popular front-end component library for mobile-first, 
-                        responsive Web apps. <a class="font-weight-bold" href="https://themestr.app">Themestr.app</a> is a customizer and theme creator for Bootstrap. 
-                        Choose from a huge collection of color palettes, fonts and SASS variables. Prototype different styles, and 
-                        easily generate CSS from SASS to give your projects a unique look-and-feel.
-                    </p>
+        <!-- <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+                    <p><u><a href="https://www.nationaltransaction.com/">National Transaction Corporation</a></u> is a Registered MSP/ISO of Elavon, Inc. Georgia [a wholly owned subsidiary of U.S. Bancorp, Minneapolis, MN]</p>
+                    <p class="h6">© All right Reversed.<a class="text-green ml-2" href="https://www.sunlimetech.com" target="_blank">Sunlimetech</a></p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="card border-primary h-100">
-                        <div class="card-body d-flex flex-column align-items-start">
-                            <h4 class="card-title text-primary">Card Outline</h4>
-                            <p class="card-text">Themestr.app makes it easy to customize this, and other free Bootstrap 4 themes for your downloading pleasure.</p>
-                            <a href="#" class="btn btn-primary mt-auto">Button</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card border-primary h-100">
-                        <div class="card-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action active">Dis List Group</a>
-                                <a href="#" class="list-group-item list-group-item-action">Custom Colors</a>
-                                <a href="#" class="list-group-item list-group-item-action">Google Fonts</a>
-                                <a href="#" class="list-group-item list-group-item-action disabled">Ionicons</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card bg-primary text-white h-100">
-                        <div class="card-body d-flex flex-column align-items-start">
-                            <h4 class="card-title">Scrollspy</h4>
-                            <p class="card-text">The top NavBar utilizes Bootstrap's Scrollspy component. You'll notice when you scroll the page the "active" nav section is highlighted.</p>
-                            <a href="https://getbootstrap.com/docs/4.1/components/scrollspy/" class="btn btn-primary border-white mt-auto">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                <hr>
+            </div>	 -->
+    </div>
+</section>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-    </main>
+
+
 {% endblock %}

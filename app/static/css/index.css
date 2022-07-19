@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+  /* background-color: #eee; */
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #eee;
+}
+
+.bg_black {
+  background-color: black;
+}
+
+.bg_grey {
+  background-color: grey;
+}
+
+.form-control {
+  border: none;
+  border-bottom: 1px solid black;
+  border-radius: 0;
+  background-color: transparent;
+  padding: 0;
+}
+
+.form-control:focus {
+  background-color: transparent;
+}
+
+
+.pinBox {
+  --width: 296px;
+  --height: 74px;
+  --spacing: 47px;
+
+  display: inline-block;
+  position: relative;
+  width: var(--width);
+  height: var(--height);
+  background-image: url("../img/otpbox.png");
+}
+
+.pinEntry {
+  position: absolute;
+  padding-left: 21px;
+  font-family: courier, monospaced;
+  font-size: var(--spacing);
+  height: var(--height);
+  letter-spacing: var(--spacing);
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  clip: rect(0px, calc(var(--width) - 21px), var(--height), 0px);
+}
+
+.nav-link {
+  color: black;
+}
+
+.nav-link:focus,
+.nav-link:hover {
+  /* text-decoration: none; */
+  color: #007bff !important;
+}
+
+.filter-select.dropdown-menu {
+  font-size: 13px;
+}
+
+.filter-text {
+  margin: auto 11px;
+}
+
+.form-control-filter {
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: calc(100% - 35px);
+  font-size: 13px;
+}

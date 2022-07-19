@@ -1,0 +1,101 @@
+{% extends "common/global_base.html" %}
+
+{% block content %}
+
+<div class="" style="height: 100vh;">
+    <div class="col-md-12 p-0 h-100 row">
+        <div class="col-md-5 bg_grey h-100 p-0">
+            <img src="{{ url_for('static', filename='images/doc4.jpg') }}" alt="" style="/* border: 1px solid #11a09d; */
+                /* border-radius: 40px; */width: 100%;height: 100%;object-fit: fill;">
+        </div>
+
+        <div class="col-md-7 h-100 p-0">
+            <div class="w-100 p-5 d-flex justify-content-center align-items-center h-100">
+                <!-- <form action="/login" method="post" class="w-100"> -->
+                <div class="w-100">
+                    <h2 class="" style="padding-bottom: 7rem;">Sign in</h2>
+
+                    <div class="show1">
+                        <div class="form-group">
+                            <div class="input-group w-100">
+                                <input type="email" class="form-control" name="email" placeholder="Email"
+                                    required="required">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="password" placeholder="Password"
+                                    required="required">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <button type="submit" id="login" onclick="window.location.href='booking'"
+                                class="btn btn-info btn-lg w-100">Login</button>
+                        </div>
+                        <p class="w-100 text-center h4">OR</p>
+                        <div class="form-group">
+                            <button type="submit" id="login_with_phone" class="btn btn-outline-info btn-lg w-100">Login
+                                with
+                                Phone</button>
+                        </div>
+                        <br />
+                        <p class="w-100 text-center">Don't have an account? <a class="font-weight-bold"
+                                href="signup">Sign up
+                                here</a></p>
+                    </div>
+                    <div class="show2 d-none">
+                        <p>Enter Mobile Number</p>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="mobile_number" required="required">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <button type="submit" id="mobile_next" class="btn btn-info btn-lg w-100">Next</button>
+                        </div>
+                        <br />
+                        <p class="w-100 text-center h4">OR</p>
+                        <div class="form-group">
+                            <button type="submit" id="login_with_email" class="btn btn-outline-info btn-lg w-100">Login
+                                with
+                                Email</button>
+                        </div>
+                        <br />
+                        <p class="w-100 text-center">Don't have an account? <a class="font-weight-bold"
+                                href="signup">Sign up
+                                here</a></p>
+                    </div>
+                    <div class="show3 d-none">
+                        <p>Enter code sent to your number </p>
+                        <sub class="font-weight-light">A 4 Digit pin has been sent to your number</sub>
+                        <br />
+                        <div class="pinBox">
+                            <input class="pinEntry" name="token" type=text maxlength=4 autocomplete=off>
+                        </div>
+
+                        <br />
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <button type="submit" id="verify_otp" onclick="window.location.href='booking'"
+                                class="btn btn-info btn-lg w-100">Verify</button>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <button type="submit" id="verify_otp" class="btn btn-outline-info btn-lg w-100">Resend
+                                OTP</button>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- </form> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
