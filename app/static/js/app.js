@@ -182,7 +182,7 @@ if (yesCalendar != undefined) {
 
             setDropdownCalendarType();
             setRenderRangeText();
-            setSchedules();
+            // setSchedules();
         }
 
         function onClickNavi(e) {
@@ -203,7 +203,7 @@ if (yesCalendar != undefined) {
             }
 
             setRenderRangeText();
-            setSchedules();
+            // setSchedules();
         }
 
         function onNewSchedule() {
@@ -297,6 +297,22 @@ if (yesCalendar != undefined) {
             }
 
             cal.createSchedules([schedule]);
+
+            const userAction = async () => {
+                schedule.user_id = document.getElementById("user_id").value;
+                const response = await fetch('/create_schedule', {
+                    method: 'POST',
+                    body: JSON.stringify(schedule), // string or object
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const myJson = await response.json(); //extract JSON from the http response
+                console.log("myJson");
+                console.log(myJson);
+                //   window.location.reload(); // For id
+            }
+            userAction();
 
             refreshScheduleVisibility();
         }
@@ -438,7 +454,7 @@ if (yesCalendar != undefined) {
 
         setDropdownCalendarType();
         setRenderRangeText();
-        setSchedules();
+        // setSchedules();
         setEventListener();
     })(window, tui.Calendar);
 

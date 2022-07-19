@@ -26,8 +26,10 @@
         </ul>
 
         <div class="my-2 my-lg-0" style="float: right;text-align: right;margin-left: auto;">
-            <button type="button" class="btn btn-link mr-3" onclick="window.location.href='./index.html'"
-                style="border: 1px solid;">Logout</button>
+            <button type="button" class="btn btn-link mr-3" onclick="window.location.href='/login'"
+                style="border: 1px solid;">
+                Sign in
+            </button>
         </div>
 
     </div>
@@ -36,44 +38,43 @@
 <div class="container col-md-12 w-100 p-5">
     <div class="row pl-5 pt-3">
         <div class="col-md-3 m-auto">
-            <h1 style="font-weight: bold;margin-bottom: 2rem;">Dr. John Doe</h1>
+            <h1 style="font-weight: bold;margin-bottom: 2rem;">{{doctor.name}}</h1>
             <div class="card w-100" style="background: transparent;border-radius: 10px;">
                 <div class="card-body w-100 text-center">
-                    <img class="card-img-top" src="{{ url_for('static', filename='images/doc5.jpeg') }}" alt="Card image cap"
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/'+doctor.profile_picture_url) }}" alt="Card image cap"
                         style="height: 91px;width: 91px;border-radius: 50%;object-fit: cover;">
-                    <h5 class="card-title mt-2 mb-0">Dr. John Doe</h5>
-                    <p class="card-text font-weight-light" style="font-size: 14px;">Heart Surgeon</p>
+                    <h5 class="card-title mt-2 mb-0">{{doctor.name}}</h5>
+                    <p class="card-text font-weight-light mb-3" style="font-size: 14px;">{{doctor.profession}}</p>
 
-                    <hr class="solid" style="border: 1px solid rgba(0,0,0,.125);margin-bottom: 2rem;margin-top: 2rem;">
+                    {# <hr class="solid" style="border: 1px solid rgba(0,0,0,.125);margin-bottom: 2rem;margin-top: 2rem;"> #}
 
-                    <span>4.5 Rating</span>
+                    {# <span>4.5 Rating</span>
                     <div style="margin-left: auto;margin-bottom: 1rem;">
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star"></span>
                         <span class="fa fa-star"></span>
-                    </div>
+                    </div> #}
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row pl-5 pt-3">
-        <div class="col-md-6" style="border-right: 1px solid #9D9D9D;padding: 40px;padding-top: 80px;">
+        {# <div class="col-md-6" style="border-right: 1px solid #9D9D9D;padding: 40px;padding-top: 80px;"> #}
+        <div class="col-md-12" style="padding: 40px;padding-top: 80px;">
             <div>
                 <h5>Qualification</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                <p>{{doctor.qualification}}
                 </p>
             </div>
             <div class="mt-5">
                 <h5>Charges (per hour)</h5>
-                <p>20 USD</p>
+                <p>{{doctor.charges}} PKR</p>
             </div>
         </div>
-        <div class="col-md-6" style="padding: 40px;padding-top: 80px;">
+        {# <div class="col-md-6" style="padding: 40px;padding-top: 80px;">
             <p class="font-weight-bold pl-2" style="">Reviews</p>
             <div class="card bg-light mb-3" style="border-radius: 8px;">
                 <div class="card-header d-flex w-100 font-weight-bold"
@@ -132,7 +133,7 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </div> #}
 
     </div>
 

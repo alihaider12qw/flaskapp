@@ -11,35 +11,39 @@
 
         <div class="col-md-7 h-100 p-0">
             <div class="w-100 p-5 d-flex justify-content-center align-items-center h-100">
-                <!-- <form action="/login" method="post" class="w-100"> -->
                 <div class="w-100">
                     <h2 class="" style="padding-bottom: 7rem;">Sign in</h2>
 
                     <div class="show1">
-                        <div class="form-group">
-                            <div class="input-group w-100">
-                                <input type="email" class="form-control" name="email" placeholder="Email"
-                                    required="required">
+                        <form action="/login" method="post" name="login_form" class="w-100">
+                            <p class="text-danger">{{err_msg}}</p>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+                            <div class="form-group">
+                                <div class="input-group w-100">
+                                    <input type="email" class="form-control" name="email" placeholder="Email"
+                                        required="required">
+                                </div>
                             </div>
-                        </div>
-                        <br />
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="password" class="form-control" name="password" placeholder="Password"
-                                    required="required">
+                            <br />
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" name="password" placeholder="Password"
+                                        required="required">
+                                </div>
                             </div>
-                        </div>
-                        <br />
-                        <div class="form-group">
-                            <button type="submit" id="login" onclick="window.location.href='booking'"
-                                class="btn btn-info btn-lg w-100">Login</button>
-                        </div>
-                        <p class="w-100 text-center h4">OR</p>
+                            <br />
+                            <div class="form-group">
+                                {# onclick="window.location.href='booking'" #}
+                                <button type="submit" id="login" class="btn btn-info btn-lg w-100">Login</button>
+                            </div>
+                        </form>
+                        {# <p class="w-100 text-center h4">OR</p>
                         <div class="form-group">
                             <button type="submit" id="login_with_phone" class="btn btn-outline-info btn-lg w-100">Login
                                 with
                                 Phone</button>
-                        </div>
+                        </div>#}
                         <br />
                         <p class="w-100 text-center">Don't have an account? <a class="font-weight-bold"
                                 href="signup">Sign up
@@ -80,8 +84,8 @@
                         <br />
                         <br />
                         <div class="form-group">
-                            <button type="submit" id="verify_otp" onclick="window.location.href='booking'"
-                                class="btn btn-info btn-lg w-100">Verify</button>
+                            {# onclick="window.location.href='booking'" #}
+                            <button type="submit" id="verify_otp" class="btn btn-info btn-lg w-100">Verify</button>
                         </div>
                         <br />
                         <div class="form-group">
@@ -91,7 +95,6 @@
                     </div>
 
                 </div>
-                <!-- </form> -->
             </div>
         </div>
 

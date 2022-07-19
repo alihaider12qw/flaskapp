@@ -5,25 +5,19 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Next Vision</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css"> -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='js/tui-time-picker.css') }}">
-    <!-- <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css"> -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='js/tui-date-picker.css') }}">
-
-    <!-- <link rel="stylesheet" type="text/css" href="../dist/tui-calendar.css"> -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/css/tui-calendar.css') }}">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tui-calendar/1.15.3/tui-calendar.css" integrity="sha512-cWw7GZ4H9b6ukIZk8Wla2J8ZiTOrXwJ2rWlmZ+C6RQshXBZ1mMBMktT5Ytb7AoYVSsD8L0S+YtBZ9ZYfCLNneA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
-
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/css/default.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/css/icons.css') }}">
 </head>
 
 <body>
     <span id="yesCalendar"></span>
+    <input type="hidden" name="user_id" id="user_id" value="{{user_id}}" />
     <div id="top">
         <a href="#">
-            <!-- <img src="./images/img-bi.png" srcset="./images/img-bi@2x.png 2x,./images/img-bi@3x.png 3x"> -->
-            <img src="{{ url_for('static', filename='/images/logo.jpeg') }}" style="height: 100%;">
+            <img src="{{ url_for('static', filename='/images/logo.jpg') }}" style="height: 100%;">
         </a>
     </div>
     <div id="lnb">
@@ -131,14 +125,86 @@
     <script src="https://uicdn.toast.com/tui.date-picker/v4.0.3/tui-date-picker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tui-calendar/1.15.3/tui-calendar.js" integrity="sha512-7HvCRWO/ReE7nEkatH1PnkhmyHPY956p7GBcHbICWopjUQgh1A8OW4wmdXr9aO5lK7l70Dp9xXw4yVyda/sqyw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-    <!-- <script src="../dist/tui-calendar.js"></script> -->
     <script src="{{ url_for('static', filename='/js/tui-calendar.js') }}"></script>
 
     <script src="{{ url_for('static', filename='/js/data/calendars.js') }}"></script>
     <script src="{{ url_for('static', filename='/js/data/schedules.js') }}"></script>
-    <!-- <script src="./js/theme/dooray.js"></script> -->
     <script src="{{ url_for('static', filename='/js/app.js') }}"></script>
+
+
+
+    <script>
+        function refreshScheduleVisibility() {
+            var calendarElements = Array.prototype.slice.call(document.querySelectorAll('#calendarList input'));
+
+            CalendarList.forEach(function (calendar) {
+                cal.toggleSchedules(calendar.id, !calendar.checked, false);
+            });
+
+            cal.render(true);
+
+            calendarElements.forEach(function (input) {
+                var span = input.nextElementSibling;
+                span.style.backgroundColor = input.checked ? span.style.borderColor : 'transparent';
+            });
+        }
+        
+        cal.clear();
+        ScheduleList = [];
+        
+        {% for item in schedules %}
+            var schedule = new ScheduleInfo();
+            schedule.id = {{item.id}};
+            schedule.calendarId = "{{item.calendarId}}";
+            schedule.title = "{{item.title}}";
+            schedule.dnotes = "{{item.dnotes}}";
+            schedule.location = "{{item.location}}";
+            schedule.start = Date.parse("{{item.start}}");
+            schedule.end = Date.parse("{{item.end}}");
+            schedule.isAllDay = "{{item.isAllDay}}" == "True";
+            schedule.isPrivate = "{{item.isPrivate}}" == "True";
+            schedule.state = "{{item.state}}";
+
+            schedule.body = "";
+            schedule.isReadOnly = false;
+            schedule.category = 'time';
+            schedule.attendees = "";//["Attendant 1", "Attendant 2"];
+            schedule.recurrenceRule = '';//'repeated events';
+            schedule.color = calendar.color;
+            schedule.bgColor = calendar.bgColor;
+            schedule.dragBgColor = calendar.dragBgColor;
+            schedule.borderColor = calendar.borderColor;
+            schedule.raw.memo = "Raw Memo 01";
+            schedule.raw.creator.name = " raw.creator.name 01";
+            schedule.raw.creator.avatar = "raw.creator.avatar 01";
+            schedule.raw.creator.company = "raw.creator.company 01";
+            schedule.raw.creator.email = "raw.creator.email 01";
+            schedule.raw.creator.phone = "raw.creator.phone 01";
+
+            {# if (schedule.category === 'milestone') {
+                schedule.color = schedule.bgColor;
+                schedule.bgColor = 'transparent';
+                schedule.dragBgColor = 'transparent';
+                schedule.borderColor = 'transparent';
+            } #}
+
+            if (true) {
+                var travelTime = 15;
+                schedule.goingDuration = travelTime;
+                schedule.comingDuration = travelTime;
+            }
+
+            ScheduleList.push(schedule);
+
+        {% endfor %}
+
+        cal.createSchedules(ScheduleList);
+        console.log("ScheduleList");
+        console.log(ScheduleList);
+
+        refreshScheduleVisibility();
+
+    </script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@ function init() {
   cal.setCalendars(CalendarList);
 
   setRenderRangeText();
-  setSchedules();
+  // setSchedules();
   setEventListener();
 }
 
@@ -94,7 +94,7 @@ function onClickMenu(e) {
 
   setDropdownCalendarType();
   setRenderRangeText();
-  setSchedules();
+  // setSchedules();
 }
 
 function onClickNavi(e) {
@@ -115,7 +115,7 @@ function onClickNavi(e) {
   }
 
   setRenderRangeText();
-  setSchedules();
+  // setSchedules();
 }
 
 function setRenderRangeText() {

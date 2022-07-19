@@ -218,32 +218,35 @@
 
         <div class="container">
             <div class="row my-5">
+                {# data #}
+                {% for item in doctors %}
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card w-100" style="background: transparent;border-radius: 10px;border-color: #1ebfbc;">
+                            <div class="card-body w-100 text-center">
+                                <img class="card-img-top" src="./static/images/{{item.profile_picture_url}}"
+                                    alt="Card image cap"
+                                    style="height: 91px;width: 91px;margin: 0 auto;border-radius: 50%;object-fit: cover;">
+                                <h5 class="card-title mt-2 mb-0">{{item.name}}</h5>
+                                <p class="card-text font-weight-light" style="font-size: 14px;">{{item.profession}}</p>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="card w-100" style="background: transparent;border-radius: 10px;border-color: #1ebfbc;">
-                        <div class="card-body w-100 text-center">
-                            <img class="card-img-top" src="{{ url_for('static', filename='images/doc5.jpeg') }}" alt="Card image cap"
-                                style="height: 91px;width: 91px;margin: 0 auto;border-radius: 50%;object-fit: cover;">
-                            <h5 class="card-title mt-2 mb-0">Dr. John Doe</h5>
-                            <p class="card-text font-weight-light" style="font-size: 14px;">Heart Surgeon</p>
+                                <hr class="solid" style="border: 1px solid rgba(0,0,0,.125);">
 
-                            <hr class="solid" style="border: 1px solid rgba(0,0,0,.125);">
+                                <button type="button" class="btn btn-outline-info w-100"
+                                    style="border-radius: 20px;margin-bottom: 1rem;font-size: 14px;"
+                                    onclick="window.location.href='doctor_profile/{{item.id}}'">
+                                    View Profile
+                                </button>
+                                <button type="button" class="btn btn-info w-100" data-toggle="modal"
+                                    data-target="#exampleModalCenter"
+                                    style="border-radius: 20px; margin-bottom: 1rem; font-size: 14px;">
+                                    Book
+                                    Appointment
+                                </button>
 
-                            <button type="button" class="btn btn-outline-info w-100"
-                                style="border-radius: 20px;margin-bottom: 1rem;font-size: 14px;"
-                                onclick="window.location.href='doctor_profile'">
-                                View Profile
-                            </button>
-                            <button type="button" class="btn btn-info w-100" data-toggle="modal"
-                                data-target="#exampleModalCenter"
-                                style="border-radius: 20px; margin-bottom: 1rem; font-size: 14px;">
-                                Book
-                                Appointment
-                            </button>
-
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
 
             </div>
         </div>

@@ -11,13 +11,16 @@
 
         <div class="col-md-7 h-100 p-0">
             <div class="w-100 p-5 d-flex justify-content-center align-items-center h-100">
-                <form action="/login" method="post" class="w-100">
+                <form action="/signup" method="post" class="w-100">
+                <p class="text-danger">{{err_msg}}</p>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                     <h2 class="" style="padding-bottom: 2rem;">Signup</h2>
 
                     <div class="">
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="" placeholder="Name" required="required">
+                                <input type="text" class="form-control" name="fullname" placeholder="Full Name"
+                                    required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -28,38 +31,38 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="password" class="form-control" name="" placeholder="Password"
+                                <input type="password" class="form-control" name="password" placeholder="Password"
                                     required="required">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="password" class="form-control" name="" placeholder="Confirm Password"
+                                <input type="password" class="form-control" placeholder="Confirm Password"
                                     required="required">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="" placeholder="Phone number"
+                                <input type="text" class="form-control" name="phone" placeholder="Phone number"
                                     required="required">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="" placeholder="Date of Birth"
+                                <input type="text" class="form-control" name="date_of_birth" placeholder="Date of Birth"
                                     required="required">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="password" class="form-control" name="password" placeholder="Speciality"
+                                <input type="text" class="form-control" name="speciality" placeholder="Speciality"
                                     required="required">
                             </div>
                         </div>
                         <br />
                         <div class="form-group">
-                            <button type="button" onclick="window.location.href='booking'"
-                                class="btn btn-info btn-lg w-100">Create Account</button>
+                            {# onclick="window.location.href='booking'" #}
+                            <button type="submit" class="btn btn-info btn-lg w-100">Create Account</button>
                         </div>
                         <p class="w-100 text-center">Already have an account? <a class="font-weight-bold"
                                 href="login">Login

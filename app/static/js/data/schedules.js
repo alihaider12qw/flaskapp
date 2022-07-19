@@ -17,7 +17,7 @@ function ScheduleInfo() {
     this.body = null;
     this.location = null;
     this.dnotes = null;
-    this.isAllday = false;
+    this.isAllDay = false;
     this.start = null;
     this.end = null;
     this.category = '';
@@ -60,11 +60,11 @@ function generateTime(schedule, renderStart, renderEnd) {
     var endDate = moment(renderEnd.getTime());
     var diffDate = endDate.diff(startDate, 'days');
 
-    schedule.isAllday = chance.bool({likelihood: 30});
-    if (schedule.isAllday) {
+    schedule.isAllDay = chance.bool({ likelihood: 30 });
+    if (schedule.isAllDay) {
         schedule.category = 'allday';
-    } else if (chance.bool({likelihood: 30})) {
-        schedule.category = SCHEDULE_CATEGORY[chance.integer({min: 0, max: 1})];
+    } else if (chance.bool({ likelihood: 30 })) {
+        schedule.category = SCHEDULE_CATEGORY[chance.integer({ min: 0, max: 1 })];
         if (schedule.category === SCHEDULE_CATEGORY[1]) {
             schedule.dueDateClass = 'morning';
         }
@@ -72,25 +72,25 @@ function generateTime(schedule, renderStart, renderEnd) {
         schedule.category = 'time';
     }
 
-    startDate.add(chance.integer({min: 0, max: diffDate}), 'days');
-    startDate.hours(chance.integer({min: 0, max: 23}))
+    startDate.add(chance.integer({ min: 0, max: diffDate }), 'days');
+    startDate.hours(chance.integer({ min: 0, max: 23 }))
     startDate.minutes(chance.bool() ? 0 : 30);
     schedule.start = startDate.toDate();
 
     endDate = moment(startDate);
-    if (schedule.isAllday) {
-        endDate.add(chance.integer({min: 0, max: 3}), 'days');
+    if (schedule.isAllDay) {
+        endDate.add(chance.integer({ min: 0, max: 3 }), 'days');
     }
 
     schedule.end = endDate
-        .add(chance.integer({min: 1, max: 4}), 'hour')
+        .add(chance.integer({ min: 1, max: 4 }), 'hour')
         .toDate();
 
-    if (!schedule.isAllday && chance.bool({likelihood: 20})) {
-        schedule.goingDuration = chance.integer({min: 30, max: 120});
-        schedule.comingDuration = chance.integer({min: 30, max: 120});;
+    if (!schedule.isAllDay && chance.bool({ likelihood: 20 })) {
+        schedule.goingDuration = chance.integer({ min: 30, max: 120 });
+        schedule.comingDuration = chance.integer({ min: 30, max: 120 });;
 
-        if (chance.bool({likelihood: 50})) {
+        if (chance.bool({ likelihood: 50 })) {
             schedule.end = schedule.start;
         }
     }
@@ -99,7 +99,7 @@ function generateTime(schedule, renderStart, renderEnd) {
 function generateUnRandomTime(schedule, renderStart, renderEnd) {
     var startDate = moment(renderStart.getTime())
     var endDate = moment(renderEnd.getTime());
-    schedule.isAllday = false
+    schedule.isAllDay = false
     schedule.category = 'time';
     startDate.add(15, 'days');
     startDate.hours(15)
@@ -112,7 +112,7 @@ function generateUnRandomTime(schedule, renderStart, renderEnd) {
 function generateNames() {
     var names = [];
     var i = 0;
-    var length = chance.integer({min: 1, max: 10});
+    var length = chance.integer({ min: 1, max: 10 });
 
     for (; i < length; i += 1) {
         names.push(chance.name());
@@ -135,8 +135,8 @@ function generateUnRandomSchedule(calendar, renderStart, renderEnd) {
     schedule.isPrivate = false;
     schedule.location = "Health record extract comprising a standardized collection of clinical and contextual information";
     schedule.dnotes = "Treated him with Maze surgery";
-    schedule.attendees = ["Attendant 1","Attendant 2"];
-    schedule.recurrenceRule = 'repeated events';
+    schedule.attendees = ["Attendant 1", "Attendant 2"];
+    schedule.recurrenceRule = '';//'repeated events';
     schedule.state = 'Busy';
     schedule.color = calendar.color;
     schedule.bgColor = calendar.bgColor;
@@ -171,16 +171,16 @@ function generateRandomSchedule(calendar, renderStart, renderEnd) {
     schedule.id = chance.guid();
     schedule.calendarId = calendar.id;
 
-    schedule.title = chance.sentence({words: 3});
-    schedule.body = chance.bool({likelihood: 20}) ? chance.sentence({words: 10}) : '';
-    schedule.isReadOnly = chance.bool({likelihood: 20});
+    schedule.title = chance.sentence({ words: 3 });
+    schedule.body = chance.bool({ likelihood: 20 }) ? chance.sentence({ words: 10 }) : '';
+    schedule.isReadOnly = chance.bool({ likelihood: 20 });
     generateTime(schedule, renderStart, renderEnd);
 
-    schedule.isPrivate = chance.bool({likelihood: 10});
+    schedule.isPrivate = chance.bool({ likelihood: 10 });
     schedule.location = chance.address();
-    schedule.attendees = chance.bool({likelihood: 70}) ? generateNames() : [];
-    schedule.recurrenceRule = chance.bool({likelihood: 20}) ? 'repeated events' : '';
-    schedule.state = chance.bool({likelihood: 20}) ? 'Free' : 'Busy';
+    schedule.attendees = chance.bool({ likelihood: 70 }) ? generateNames() : [];
+    schedule.recurrenceRule = chance.bool({ likelihood: 20 }) ? 'repeated events' : '';
+    schedule.state = chance.bool({ likelihood: 20 }) ? 'Free' : 'Busy';
     schedule.color = calendar.color;
     schedule.bgColor = calendar.bgColor;
     schedule.dragBgColor = calendar.dragBgColor;

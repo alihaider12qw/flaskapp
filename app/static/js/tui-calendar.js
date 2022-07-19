@@ -9082,6 +9082,7 @@
          */
         // eslint-disable-next-line complexity
         Base.prototype.updateSchedule = function (schedule, options) {
+          console.log("Base.prototype.updateSchedule");
           var start = options.start || schedule.start;
           var end = options.end || schedule.end;
 
@@ -9182,6 +9183,20 @@
            * @event Base#updateSchedule
            */
           this.fire('updateSchedule');
+
+          const userAction = async () => {
+            const response = await fetch('/update_schedule/' + schedule.id, {
+              method: 'POST',
+              body: JSON.stringify(options), // string or object
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            const myJson = await response.json(); //extract JSON from the http response
+            console.log("myJson");
+            console.log(myJson);
+          }
+          userAction();
 
           return schedule;
         };
@@ -10790,6 +10805,21 @@
           if (!silent) {
             this.render();
           }
+
+          const userAction = async () => {
+            const response = await fetch('/delete_schedule/' + scheduleId, {
+              method: 'POST',
+              body: JSON.stringify({ "scheduleId": scheduleId }), // string or object
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            const myJson = await response.json(); //extract JSON from the http response
+            console.log("myJson");
+            console.log(myJson);
+          }
+          userAction();
+
         };
 
         /**********
@@ -22138,7 +22168,7 @@
           });
         };
 
-       
+
         ScheduleCreationPopup.prototype._onClickCreateSchedule = function (form) {
           /**
            * @event ScheduleCreationPopup#beforeCreateSchedule
@@ -24303,7 +24333,7 @@
               + "\">\n                <div id=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 43, "column": 25 }, "end": { "line": 43, "column": 39 } } }) : helper)))
               + "endpicker-container\" style=\"margin-left: -1px; position: relative\"></div>\n            </div>\n            <div class=\""
-              
+
               // allday part
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 45, "column": 24 }, "end": { "line": 45, "column": 38 } } }) : helper)))
               + "popup-section-item "
@@ -24322,7 +24352,7 @@
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 48, "column": 29 }, "end": { "line": 48, "column": 43 } } }) : helper)))
               + "content\">"
               + ((stack1 = ((helper = (helper = lookupProperty(helpers, "popupIsAllDay-tmpl") || (depth0 != null ? lookupProperty(depth0, "popupIsAllDay-tmpl") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "popupIsAllDay-tmpl", "hash": {}, "data": data, "loc": { "start": { "line": 48, "column": 52 }, "end": { "line": 48, "column": 76 } } }) : helper))) != null ? stack1 : "")
-             
+
               + "</span>\n            </div>\n        </div>\n        <div class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 51, "column": 20 }, "end": { "line": 51, "column": 34 } } }) : helper)))
               + "popup-section "
@@ -24444,7 +24474,7 @@
               + "content\">"
               + ((stack1 = (lookupProperty(helpers, "popupDetailLocation-tmpl") || (depth0 && lookupProperty(depth0, "popupDetailLocation-tmpl")) || alias2).call(alias1, (depth0 != null ? lookupProperty(depth0, "schedule") : depth0), { "name": "popupDetailLocation-tmpl", "hash": {}, "data": data, "loc": { "start": { "line": 11, "column": 182 }, "end": { "line": 11, "column": 221 } } })) != null ? stack1 : "")
               + "</span></div>";
-          },"17": function (container, depth0, helpers, partials, data) {
+          }, "17": function (container, depth0, helpers, partials, data) {
             var stack1, helper, alias1 = depth0 != null ? depth0 : (container.nullContext || {}), alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function (parent, propertyName) {
               if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
                 return parent[propertyName];
@@ -24612,31 +24642,31 @@
             };
             // console.log("called");
             // console.log(container);
-            console.log("__webpack_require__");
-            console.log(__webpack_require__);
-            console.log("container");
-            console.log(container);
-            console.log("depth0");
-            console.log(depth0);
-            console.log("helpers");
-            console.log(helpers);
-            console.log("data");
-            console.log(data);
-            console.log("alias1");
-            console.log(alias1);
-            console.log('((stack1 = (depth0 != null ? lookupProperty(depth0,"schedule") : depth0)) != null ? lookupProperty(stack1,"dnotes") : stack1)');
-            console.log(((stack1 = (depth0 != null ? lookupProperty(depth0, "schedule") : depth0)) != null ? lookupProperty(stack1, "dnotes") : stack1));
-            console.log("yoyo1");
-            console.log('lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"schedule") : depth0)) != null ? lookupProperty(stack1,"dnotes") : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":11,"column":8},"end":{"line":11,"column":241}}})');
-            console.log(lookupProperty(helpers, "if").call(alias1, "dnoteddd 01", { "name": "if", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 11, "column": 8 }, "end": { "line": 11, "column": 241 } } }));
-            console.log('"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":11,"column":8},"end":{"line":11,"column":241}}}');
-            console.log({ "name": "if", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 11, "column": 8 }, "end": { "line": 11, "column": 241 } } });
-            console.log('lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"schedule") : depth0)) != null ? lookupProperty(stack1,"dnotes") : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":11,"column":8},"end":{"line":11,"column":241}}})');
-            console.log(lookupProperty(helpers, "if").call(alias1, ((stack1 = (depth0 != null ? lookupProperty(depth0, "schedule") : depth0)) != null ? lookupProperty(stack1, "dnotes") : stack1), { "name": "if", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 11, "column": 8 }, "end": { "line": 11, "column": 241 } } }));
-            console.log('((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"schedule") : depth0)) != null ? lookupProperty(stack1,"dnotes") : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":11,"column":8},"end":{"line":11,"column":241}}})) != null ? stack1 : "")    ');
-            console.log(((stack1 = lookupProperty(helpers, "if").call(alias1, ((stack1 = (depth0 != null ? lookupProperty(depth0, "schedule") : depth0)) != null ? lookupProperty(stack1, "dnotes") : stack1), { "name": "if", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 11, "column": 8 }, "end": { "line": 11, "column": 241 } } })) != null ? stack1 : ""));
-            console.log('container.program(1, data, 0)');
-            console.log(container.program(1, data, 0));
+            // console.log("__webpack_require__");
+            // console.log(__webpack_require__);
+            // console.log("container");
+            // console.log(container);
+            // console.log("depth0");
+            // console.log(depth0);
+            // console.log("helpers");
+            // console.log(helpers);
+            // console.log("data");
+            // console.log(data);
+            // console.log("alias1");
+            // console.log(alias1);
+            // console.log('((stack1 = (depth0 != null ? lookupProperty(depth0,"schedule") : depth0)) != null ? lookupProperty(stack1,"dnotes") : stack1)');
+            // console.log(((stack1 = (depth0 != null ? lookupProperty(depth0, "schedule") : depth0)) != null ? lookupProperty(stack1, "dnotes") : stack1));
+            // console.log("yoyo1");
+            // console.log('lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"schedule") : depth0)) != null ? lookupProperty(stack1,"dnotes") : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":11,"column":8},"end":{"line":11,"column":241}}})');
+            // console.log(lookupProperty(helpers, "if").call(alias1, "dnoteddd 01", { "name": "if", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 11, "column": 8 }, "end": { "line": 11, "column": 241 } } }));
+            // console.log('"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":11,"column":8},"end":{"line":11,"column":241}}}');
+            // console.log({ "name": "if", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 11, "column": 8 }, "end": { "line": 11, "column": 241 } } });
+            // console.log('lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"schedule") : depth0)) != null ? lookupProperty(stack1,"dnotes") : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":11,"column":8},"end":{"line":11,"column":241}}})');
+            // console.log(lookupProperty(helpers, "if").call(alias1, ((stack1 = (depth0 != null ? lookupProperty(depth0, "schedule") : depth0)) != null ? lookupProperty(stack1, "dnotes") : stack1), { "name": "if", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 11, "column": 8 }, "end": { "line": 11, "column": 241 } } }));
+            // console.log('((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"schedule") : depth0)) != null ? lookupProperty(stack1,"dnotes") : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":11,"column":8},"end":{"line":11,"column":241}}})) != null ? stack1 : "")    ');
+            // console.log(((stack1 = lookupProperty(helpers, "if").call(alias1, ((stack1 = (depth0 != null ? lookupProperty(depth0, "schedule") : depth0)) != null ? lookupProperty(stack1, "dnotes") : stack1), { "name": "if", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 11, "column": 8 }, "end": { "line": 11, "column": 241 } } })) != null ? stack1 : ""));
+            // console.log('container.program(1, data, 0)');
+            // console.log(container.program(1, data, 0));
 
             return "<div class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 1, "column": 12 }, "end": { "line": 1, "column": 26 } } }) : helper)))

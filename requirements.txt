@@ -13,6 +13,9 @@ Flask-SQLAlchemy==2.5.1
 # Flask-User
 Flask-WTF==1.0.0
 
+# Others
+pytz
+
 # Automated tests
 # pytest==3.0.5
 # pytest-cov==2.4.0

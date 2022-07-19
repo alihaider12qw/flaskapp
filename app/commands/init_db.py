@@ -10,7 +10,8 @@ from flask import current_app
 from flask_script import Command
 
 from app import db
-from app.models.user_models import User, Role
+from app.models.user_models import *
+
 
 class InitDbCommand(Command):
     """ Initialize the database."""
@@ -18,53 +19,29 @@ class InitDbCommand(Command):
     def run(self):
         init_db()
 
+
 def init_db():
     """ Initialize the database."""
     db.drop_all()
     db.create_all()
-    create_users()
+    create()
 
 
-def create_users():
-    """ Create users """
-
+def create():
     # Create all tables
     db.create_all()
 
     # Adding roles
-    admin_role = find_or_create_role('admin', u'Admin')
+    doctor = Doctor(name="Dr. John Doe",
+                    profession="Heart Surgeon",
+                    profile_picture_url="doc5.jpeg",
+                    qualification="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    charges=700)
+    db.session.add(doctor)
 
-    # Add users
-    user = find_or_create_user(u'Admin', u'Example', u'admin@example.com', 'Password1', admin_role)
-    user = find_or_create_user(u'Member', u'Example', u'member@example.com', 'Password1')
+    schedule = Schedule("1", "First", "Summary is", "Needs surgery", datetime.datetime.now(
+    ), datetime.datetime.now(), True, False, "Busy", 1)
+    db.session.add(schedule)
 
     # Save to DB
     db.session.commit()
-
-
-def find_or_create_role(name, label):
-    """ Find existing role or create new role """
-    role = Role.query.filter(Role.name == name).first()
-    if not role:
-        role = Role(name=name, label=label)
-        db.session.add(role)
-    return role
-
-
-def find_or_create_user(first_name, last_name, email, password, role=None):
-    """ Find existing user or create new user """
-    user = User.query.filter(User.email == email).first()
-    if not user:
-        user = User(email=email,
-                    first_name=first_name,
-                    last_name=last_name,
-                    password=current_app.user_manager.hash_password(password),
-                    active=True,
-                    email_confirmed_at=datetime.datetime.utcnow())
-        if role:
-            user.roles.append(role)
-        db.session.add(user)
-    return user
-
-
-
