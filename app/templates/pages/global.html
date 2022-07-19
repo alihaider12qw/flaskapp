@@ -1,0 +1,151 @@
+{% extends "common/global_base.html" %}
+
+{% block content %}
+    <header class="bg-primary">
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="col-12">
+                    <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center">
+                        <h1 class="display-4">Welcome to FlaskApp</h1>
+                        <p class="lead">Quickly get started with Flask, Flask-User, and an open source theme.</p>
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-6 mx-auto">
+                                <div class="input-group mb-3">
+                                  <input type="text" class="form-control form-control-lg" placeholder="your@email">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-outline-light btn-lg rounded-right" type="button">Sign-up</button>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary" id="navbar1">
+        <div class="container">
+            <a class="navbar-brand mr-1 mb-1 mt-0" href="../">Bootstrap 4</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse justify-content-center" id="collapsingNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#buttons">Buttons</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#navs">Navs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cards">Cards</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#modals">Modals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#typography">Typography</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#forms">Forms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#grid">Grid</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="url_for('user.login')">Sign In / Signup</a>
+                    </li>                              
+                </ul>
+            </div>
+        </div>
+    </nav> 
+    <main>
+        <section class="container">
+            <div class="row">
+                <div class="col-12 my-auto">
+                    <div class="row text-center">
+                        <div class="col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <h1 class="display-2 text-primary"><span class="ion ion-ios-snow-outline"></span></h1>
+                                    <h4 class="card-title text-primary">Unique</h4>
+                                    <p class="card-text">Don't like that typical Bootstrap look? Each theme has a custom look-and-feel, while maximizing use of Bootstrap without extensive additional CSS & JS.</p>
+                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <h1 class="display-2 text-primary"><span class="ion ion-ios-tablet-portrait-outline"></span></h1>
+                                    <h4 class="card-title text-primary">Responsive</h4>
+                                    <p class="card-text">Based on mobile-first Bootstrap 4, all themes are 100% responsive and designed to look great on everything from smartphones to tablets to desktops..</p>
+                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <h1 class="display-2 text-primary"><span class="ion ion-ios-checkmark-circle-outline"></span></h1>
+                                    <h4 class="card-title text-primary">Consistent</h4>
+                                    <p class="card-text">Themes are crafted with care for design and performance. All themes are built on modern HTML5 & CSS3 standards to ensure consistency and cross-browser support.</p>
+                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cards" class="container pb-5">
+            <div class="d-flex my-3">
+                <div class="jumbotron w-100 py-5 mx-auto">
+                    <h1>Themestr.app</h1>
+                    <h4>Theme Builder for Bootstrap</h4>
+                    <p class="lead">
+                        Rapidy build custom themes for Bootstrap, the world's most 
+                        popular front-end component library for mobile-first, 
+                        responsive Web apps. <a class="font-weight-bold" href="https://themestr.app">Themestr.app</a> is a customizer and theme creator for Bootstrap. 
+                        Choose from a huge collection of color palettes, fonts and SASS variables. Prototype different styles, and 
+                        easily generate CSS from SASS to give your projects a unique look-and-feel.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="card border-primary h-100">
+                        <div class="card-body d-flex flex-column align-items-start">
+                            <h4 class="card-title text-primary">Card Outline</h4>
+                            <p class="card-text">Themestr.app makes it easy to customize this, and other free Bootstrap 4 themes for your downloading pleasure.</p>
+                            <a href="#" class="btn btn-primary mt-auto">Button</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card border-primary h-100">
+                        <div class="card-body">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action active">Dis List Group</a>
+                                <a href="#" class="list-group-item list-group-item-action">Custom Colors</a>
+                                <a href="#" class="list-group-item list-group-item-action">Google Fonts</a>
+                                <a href="#" class="list-group-item list-group-item-action disabled">Ionicons</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card bg-primary text-white h-100">
+                        <div class="card-body d-flex flex-column align-items-start">
+                            <h4 class="card-title">Scrollspy</h4>
+                            <p class="card-text">The top NavBar utilizes Bootstrap's Scrollspy component. You'll notice when you scroll the page the "active" nav section is highlighted.</p>
+                            <a href="https://getbootstrap.com/docs/4.1/components/scrollspy/" class="btn btn-primary border-white mt-auto">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+{% endblock %}
