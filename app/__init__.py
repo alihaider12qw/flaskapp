@@ -116,6 +116,6 @@ def init_email_error_handler(app):
 
     # Log errors using: app.logger.error('Some error message')
 
-app = create_app()
+# app = create_app()
 
 
