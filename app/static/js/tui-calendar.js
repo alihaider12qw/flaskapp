@@ -9185,6 +9185,7 @@
           this.fire('updateSchedule');
 
           const userAction = async () => {
+            console.log("Calling fetch update_schedule with",JSON.stringify(options));
             const response = await fetch('/update_schedule/' + schedule.id, {
               method: 'POST',
               body: JSON.stringify(options), // string or object
@@ -9195,6 +9196,12 @@
             const myJson = await response.json(); //extract JSON from the http response
             console.log("myJson");
             console.log(myJson);
+            if (!response.ok) {
+              console.log("response");
+              console.log(response);
+              alert(myJson.result);
+              window.location.reload(); // For id
+            }
           }
           userAction();
 
@@ -10807,6 +10814,7 @@
           }
 
           const userAction = async () => {
+            console.log("Calling fetch delete_schedule with",JSON.stringify({ "scheduleId": scheduleId }));
             const response = await fetch('/delete_schedule/' + scheduleId, {
               method: 'POST',
               body: JSON.stringify({ "scheduleId": scheduleId }), // string or object
@@ -10938,6 +10946,7 @@
           }
           if (this._layout) {
             this._layout.render();
+            console.log("this._layout.render();");
           }
           if (this._scrollToNowMethod && this._requestScrollToNow) {
             this._scrollToNowMethod();
@@ -10959,6 +10968,7 @@
         Calendar.prototype.clear = function (immediately) {
           this._controller.clearSchedules();
           this.render(immediately);
+          console.log("this.render(immediately);");
         };
 
         /**
@@ -10991,6 +11001,7 @@
           this._setViewName(this._viewName);
           this.move();
           this.render();
+          console.log("this.render();");
         };
 
         /**
@@ -11115,6 +11126,7 @@
           this._setViewName(this._viewName);
           this.move(0);
           this.render();
+          console.log("this.render();");
         };
 
         /**
@@ -11131,6 +11143,7 @@
         Calendar.prototype.next = function () {
           this.move(1);
           this.render();
+          console.log("this.render();");
         };
 
         /**
@@ -11147,6 +11160,7 @@
         Calendar.prototype.prev = function () {
           this.move(-1);
           this.render();
+          console.log("this.render();");
         };
 
         /**
@@ -11223,6 +11237,7 @@
 
           if (!silent) {
             this.render();
+            console.log("this.render();");
           }
         };
 
@@ -11374,6 +11389,7 @@
            *     calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
            * });
            */
+          console.log("this.fire('beforeUpdateSchedule', updateScheduleData);");
           this.fire('beforeUpdateSchedule', updateScheduleData);
         };
 
@@ -11463,10 +11479,12 @@
           });
 
           util.forEach(handler.move, function (moveHandler) {
+            console.log("util.forEach(handler.move, function (moveHandler)");
             moveHandler[method]('beforeUpdateSchedule', self._onBeforeUpdate, self);
           });
 
           util.forEach(handler.resize, function (resizeHandler) {
+            console.log("util.forEach(handler.resize, function (resizeHandler) {");
             resizeHandler[method]('beforeUpdateSchedule', self._onBeforeUpdate, self);
           });
 
@@ -11570,6 +11588,7 @@
 
           this.move();
           this.render();
+          console.log("this.render();");
         };
 
         /**
@@ -11655,6 +11674,7 @@
         Calendar.prototype.setTheme = function (theme) {
           var result = this._controller.setTheme(theme);
           this.render(true);
+          console.log("this.render(true);");
 
           return result;
         };
@@ -11750,6 +11770,7 @@
           this._controller.setCalendars(calendars);
 
           this.render();
+          console.log("this.render();");
         };
 
         /**
@@ -12006,6 +12027,7 @@
           };
 
           onUpdateSchedule = function () {
+            console.log("onUpdateSchedule = function ()");
             if (moreView) {
               moreView.refresh();
             }
@@ -12026,6 +12048,7 @@
 
             if (schedules && schedules.length) {
               moreView.render(getViewModelForMoreLayer(date, target, schedules, monthView.options.daynames));
+              console.log("moreView.render(getViewModelForMoreLayer(date, target, schedules, monthView.options.daynames));");
 
               schedules.each(function (scheduleViewModel) {
                 if (scheduleViewModel) {
@@ -12045,6 +12068,7 @@
 
           // binding popup for schedules creation
           if (options.useCreationPopup) {
+            console.log("if (options.useCreationPopup) {");
             createView = new ScheduleCreationPopup(layoutContainer, baseController.calendars, options.usageStatistics);
 
             onSaveNewSchedule = function (scheduleData) {
@@ -12061,6 +12085,7 @@
             console.log(layoutContainer);
             detailView = new ScheduleDetailPopup(layoutContainer);
             onShowDetailPopup = function (eventData) {
+              console.log("onShowDetailPopup = function (eventData) {1");
               var scheduleId = eventData.schedule.calendarId;
               eventData.calendar = common.find(baseController.calendars, function (calendar) {
                 return calendar.id === scheduleId;
@@ -12070,6 +12095,7 @@
                 eventData.schedule = util.extend({}, eventData.schedule, { isReadOnly: true });
               }
               detailView.render(eventData);
+              console.log("detailView.render(eventData);");
             };
             onDeleteSchedule = function (eventData) {
               if (creationHandler) {
@@ -12077,6 +12103,7 @@
               }
             };
             onEditSchedule = function (eventData) {
+              console.log("onEditSchedule = function (eventData)");
               moveHandler.fire('beforeUpdateSchedule', eventData);
             };
 
@@ -12086,11 +12113,149 @@
 
             if (options.useCreationPopup) {
               onShowEditPopup = function (eventData) {
+                console.log("onShowEditPopup = function (eventData) {");
                 createView.setCalendars(baseController.calendars);
                 createView.render(eventData);
               };
               createView.on('beforeUpdateSchedule', onEditSchedule);
               detailView.on('beforeUpdateSchedule', onShowEditPopup);
+
+              detailView.on('beforeCompleteSchedule', function (eventData) {
+                console.log("beforeCompleteSchedule buddy");
+                console.log(eventData);
+                let price = prompt("Please enter the price customer paid");
+                if (!(price == null || price == "")) {
+                  // call api
+                  const userAction = async () => {
+                    var filename = "FILENAME";
+                    console.log("Calling fetch delete_schedule with", JSON.stringify({ "price": price }));
+                    const response = await fetch('/complete_schedule/' + eventData.schedule.id, {
+                      method: 'POST',
+                      body: JSON.stringify({ "price": price }),
+                      headers: {
+                        'Content-Type': 'application/json'
+                      }
+                    }).then((res) => {
+                      if (res.ok) {
+                        const header = res.headers.get('Content-Disposition');
+                        const parts = header.split(';');
+                        filename = parts[1].split('=')[1];
+                        return res.blob();
+                      } else {
+                        console.log("res");
+                        console.log(res);
+                        if (res.status != 500) {
+                          res.json().then((jsonn) => {
+                            console.log("jsonn");
+                            console.log(jsonn);
+                            alert(jsonn.result);
+                          });
+                        };
+                        return null
+                      }
+                    }).then((blob) => {
+                      if (blob != null) {
+                        var url = window.URL.createObjectURL(blob);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = filename;
+                        document.body.appendChild(a); // append the element to the dom, otherwise it won't work in Firefox
+                        a.click();
+                        a.remove(); // 
+                      }
+                    });
+                  }
+                  userAction();
+                }
+
+              });
+
+              detailView.on('beforeCancelSchedule', function (eventData) {
+                console.log("beforeCancelSchedule buddy");
+                console.log(eventData);
+                let cancel = confirm("Confirm cancel appointment");
+                if (cancel) {
+                  // call api
+                  const userAction = async () => {
+                    console.log("Calling fetch cancel_schedule with");
+                    const response = await fetch('/cancel_schedule/' + eventData.schedule.id, {
+                      method: 'POST',
+                      // body: JSON.stringify({ "price": price }),
+                      headers: {
+                        'Content-Type': 'application/json'
+                      }
+                    });
+                    const myJson = await response.json(); //extract JSON from the http response
+                    if (response.ok) {
+                      alert("Data updated yoyoyo");
+                      window.location.reload(); // For id
+                    } else {
+                      console.log("response");
+                      console.log(response);
+                      console.log("myJson");
+                      console.log(myJson);
+                      alert(myJson.result);
+                    }
+
+                  }
+                  userAction();
+                }
+
+              });
+
+              detailView.on('beforeDownloadSchedule', function (eventData) {
+                console.log("beforeDownloadSchedule buddy");
+                console.log(eventData);
+                // call api
+                const userAction = async () => {
+                  var filename = "FILENAME"
+                  console.log("Calling fetch download_schedule with");
+                  const response = await fetch('/download_schedule/' + eventData.schedule.id, {
+                    method: 'GET',
+                    // body: JSON.stringify({ "price": price }),
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                  }).then((res) => {
+                    console.log("res");
+                    console.log(res);
+                    console.log(res.status);
+                    console.log(res.ok);
+                    if (res.ok) {
+                      const header = res.headers.get('Content-Disposition');
+                      const parts = header.split(';');
+                      filename = parts[1].split('=')[1];
+                      return res.blob();
+                    } else {
+                      if (res.status != 500) {
+                        console.log("await response.json()");
+                        var bab = res.json().then((jsonn) => {
+                          console.log("jsonn");
+                          console.log(jsonn);
+                          alert(jsonn.result);
+                        });
+                      };
+                      return null
+                    }
+                  }).then((blob) => {
+                    if (blob != null) {
+                      var url = window.URL.createObjectURL(blob);
+                      var a = document.createElement('a');
+                      a.href = url;
+                      a.download = filename;
+                      document.body.appendChild(a); // append the element to the dom, otherwise it won't work in Firefox
+                      a.click();
+                      a.remove(); // 
+                    }
+                  });
+                  // const myJson = await response.json(); //extract JSON from the http response
+
+                }
+                userAction();
+
+              });
+
+              
             } else {
               detailView.on('beforeUpdateSchedule', onEditSchedule);
             }
@@ -12129,6 +12294,7 @@
           }
 
           monthView._beforeDestroy = function () {
+            console.log("monthView._beforeDestroy = function ()");
             moreView.destroy();
             baseController.off('clearSchedules', clearSchedulesHandler);
             baseController.off('updateSchedule', onUpdateSchedule);
@@ -12177,6 +12343,7 @@
               if (createView) {
                 createView.setCalendars(baseController.calendars);
                 createView.render(eventData);
+                console.log("createView.render(eventData);4");
               }
             },
             hideMoreView: function () {
@@ -12422,6 +12589,7 @@
                 reqAnimFrame.requestAnimFrame(function () {
                   if (!weekView.invoke('clickTimezonesCollapseBtn', timezonesCollapsed)) {
                     weekView.render();
+                    console.log("weekView.render();");
                   }
                 });
               });
@@ -12431,11 +12599,13 @@
           vLayout.on('resize', function () {
             reqAnimFrame.requestAnimFrame(function () {
               weekView.render();
+              console.log("weekView.render();");
             });
           });
 
           // binding create schedules event
           if (options.useCreationPopup) {
+            console.log("if (options.useCreationPopup) { 2");
             createView = new ScheduleCreationPopup(layoutContainer, baseController.calendars, options.usageStatistics);
 
             onSaveNewSchedule = function (scheduleData) {
@@ -12463,6 +12633,7 @@
           if (options.useDetailPopup) {
             detailView = new ScheduleDetailPopup(layoutContainer);
             onShowDetailPopup = function (eventData) {
+              console.log("onShowDetailPopup = function (eventData) {2");
               var scheduleId = eventData.schedule.calendarId;
               eventData.calendar = common.find(baseController.calendars, function (calendar) {
                 return calendar.id === scheduleId;
@@ -12472,6 +12643,7 @@
                 eventData.schedule = util.extend({}, eventData.schedule, { isReadOnly: true });
               }
               detailView.render(eventData);
+              console.log("detailView.render(eventData);");
 
             };
             onDeleteSchedule = function (eventData) {
@@ -12482,6 +12654,7 @@
               }
             };
             onEditSchedule = function (eventData) {
+              console.log("onEditSchedule = function (eventData)");
               if (eventData.isAllDay) {
                 weekView.handler.move.allday.fire('beforeUpdateSchedule', eventData);
               } else {
@@ -12498,6 +12671,7 @@
                 eventData.isEditMode = true;
                 createView.setCalendars(calendars);
                 createView.render(eventData);
+                console.log("createView.render(eventData);1");
               };
               createView.on('beforeUpdateSchedule', onEditSchedule);
               detailView.on('beforeUpdateSchedule', onShowEditPopup);
@@ -12568,6 +12742,7 @@
               if (createView) {
                 createView.setCalendars(baseController.calendars);
                 createView.render(eventData);
+                console.log("createView.render(eventData);2");
               }
             }
           };
@@ -13587,6 +13762,7 @@
          * @param {object} scheduleData - schedule data from DayGridMove handler module.
          */
         DayGridMove.prototype._updateSchedule = function (scheduleData) {
+          console.log("DayGridMove.prototype._updateSchedule");
           var schedule = scheduleData.targetModel,
             dateOffset = scheduleData.xIndex - scheduleData.dragStartXIndex,
             newStarts = new TZDate(schedule.start),
@@ -16528,6 +16704,7 @@
               }
             }));
             layer.show();
+            console.log("layer.show();");
 
             if (!util.browser.msie) {
               domutil.addClass(global.document.body, config.classname('dragging'));
@@ -16658,6 +16835,7 @@
          *  session.
          */
         MonthResize.prototype._updateSchedule = function (scheduleCache) {
+          console.log("MonthResize.prototype._updateSchedule");
           // You can not change the start date of the event. Only the end time can be changed.
           var newEnd = datetime.end(new TZDate(scheduleCache.end)),
             schedule = scheduleCache.schedule;
@@ -18267,6 +18445,7 @@
          * @param {object} scheduleData - schedule data from TimeMove#timeMoveDragend
          */
         TimeMove.prototype._updateSchedule = function (scheduleData) {
+          console.log("TimeMove.prototype._updateSchedule");
           var ctrl = this.baseController,
             modelID = scheduleData.targetModelID,
             range = scheduleData.nearestRange,
@@ -18672,6 +18851,7 @@
             this._guideLayer.setPosition(0, this.guideElement.style.top);
             this._guideLayer.setContent(tmpl(util.extend({ model: this._model }, this._viewModel)));
             this._guideLayer.show();
+            console.log("this._guideLayer.show(); 002");
           };
 
           module.exports = TimeMoveGuide;
@@ -18880,6 +19060,7 @@
          * @param {object} scheduleData - schedule data from TimeResize#timeResizeDragend
          */
         TimeResize.prototype._updateSchedule = function (scheduleData) {
+          console.log("TimeResize.prototype._updateSchedule");
           var ctrl = this.baseController,
             modelID = scheduleData.targetModelID,
             range = scheduleData.nearestRange,
@@ -20828,6 +21009,7 @@
             };
 
             childView.render(viewModel);
+            console.log("childView.render(viewModel);");
 
             self._invokeAfterRenderSchedule(eventsInDateRange);
           });
@@ -21133,6 +21315,7 @@
           layer.setSize(width, height);
 
           layer.show();
+          console.log("layer.show(); 0002");
 
           util.debounce(function () {
             domevent.on(document.body, 'mousedown', self._onMouseDown, self);
@@ -21469,6 +21652,7 @@
           domevent.on(container, 'click', this._onClick, this);
         }
 
+        console.log("util.inherit(ScheduleCreationPopup, View)");
         util.inherit(ScheduleCreationPopup, View);
 
         /**
@@ -21665,6 +21849,7 @@
          */
         // eslint-disable-next-line complexity
         ScheduleCreationPopup.prototype._onClickSaveSchedule = function (target) {
+          console.log("ScheduleCreationPopup.prototype._onClickSaveSchedule");
           var className = config.classname('popup-save');
           var cssPrefix = config.cssPrefix;
           var title;
@@ -21722,6 +21907,7 @@
          * @param {object} viewModel - view model from factory/monthView
          */
         ScheduleCreationPopup.prototype.render = function (viewModel) {
+          console.log("ScheduleCreationPopup.prototype.render");
           var calendars = this.calendars;
           var layer = this.layer;
           var boxElement, guideElements, defaultStartDate, defaultEndDate;
@@ -21759,6 +21945,7 @@
           this._createDatepicker();
 
           layer.show();
+          console.log("layer.show(); 004");
 
           if (boxElement) {
             this._setPopupPositionAndArrowDirection(boxElement.getBoundingClientRect());
@@ -22137,6 +22324,7 @@
         };
 
         ScheduleCreationPopup.prototype._onClickUpdateSchedule = function (form) {
+          console.log("ScheduleCreationPopup.prototype._onClickUpdateSchedule");
           var changes = common.getScheduleChanges(
             this._schedule,
             ['calendarId', 'title', 'location', 'dnotes', 'start', 'end', 'isAllDay', 'state', 'isPrivate'],
@@ -22170,6 +22358,7 @@
 
 
         ScheduleCreationPopup.prototype._onClickCreateSchedule = function (form) {
+          console.log("ScheduleCreationPopup.prototype._onClickCreateSchedule");
           /**
            * @event ScheduleCreationPopup#beforeCreateSchedule
            * @type {object}
@@ -22281,10 +22470,17 @@
          */
         ScheduleDetailPopup.prototype._onClick = function (clickEvent) {
           var target = domevent.getEventTarget(clickEvent);
+          console.log("_onClick");
 
           this._onClickEditSchedule(target);
 
           this._onClickDeleteSchedule(target);
+          
+          this._onClickCompleteSchedule(target);
+          
+          this._onClickCancelSchedule(target);
+          
+          this._onClickDownloadSchedule(target);
         };
 
         /**
@@ -22292,10 +22488,71 @@
          * @param {HTMLElement} target - event target
          */
         ScheduleDetailPopup.prototype._onClickEditSchedule = function (target) {
+          console.log("_onClickEditSchedule");
           var className = config.classname('popup-edit');
 
           if (domutil.hasClass(target, className) || domutil.closest(target, '.' + className)) {
             this.fire('beforeUpdateSchedule', {
+              schedule: this._schedule,
+              triggerEventName: 'click',
+              target: this._scheduleEl
+            });
+
+            this.hide();
+          }
+        };
+
+        /**
+         * @fires ScheduleDetailPopup#clickEditSchedule
+         * @param {HTMLElement} target - event target
+         */
+        ScheduleDetailPopup.prototype._onClickCompleteSchedule = function (target) {
+          console.log("_onClickCompleteSchedule");
+          var className = config.classname('popup-complete');
+
+          if (domutil.hasClass(target, className) || domutil.closest(target, '.' + className)) {
+            console.log("Yup, firing beforeCompleteSchedule");
+            this.fire('beforeCompleteSchedule', {
+              schedule: this._schedule,
+              triggerEventName: 'click',
+              target: this._scheduleEl
+            });
+
+            this.hide();
+          }
+        };
+
+        /**
+         * @fires ScheduleDetailPopup#clickEditSchedule
+         * @param {HTMLElement} target - event target
+         */
+        ScheduleDetailPopup.prototype._onClickCancelSchedule = function (target) {
+          console.log("_onClickCancelSchedule");
+          var className = config.classname('popup-cancel');
+
+          if (domutil.hasClass(target, className) || domutil.closest(target, '.' + className)) {
+            console.log("Yup, firing beforeCancelSchedule");
+            this.fire('beforeCancelSchedule', {
+              schedule: this._schedule,
+              triggerEventName: 'click',
+              target: this._scheduleEl
+            });
+
+            this.hide();
+          }
+        };
+
+        /**
+         * @fires ScheduleDetailPopup#clickEditSchedule
+         * @param {HTMLElement} target - event target
+         */
+        ScheduleDetailPopup.prototype._onClickDownloadSchedule = function (target) {
+          console.log("_onClickDownloadSchedule");
+          var className = config.classname('popup-download');
+
+          if (domutil.hasClass(target, className) || domutil.closest(target, '.' + className)) {
+            console.log("Yup, firing beforeDownloadSchedule");
+            this.fire('beforeDownloadSchedule', {
               schedule: this._schedule,
               triggerEventName: 'click',
               target: this._scheduleEl
@@ -22348,6 +22605,7 @@
           // console.log("layer then");
           // console.log(layer);
           layer.show();
+          console.log("layer.show();005");
           this._setPopupPositionAndArrowDirection(viewModel.event);
 
           this._schedule = viewModel.schedule;
@@ -22433,6 +22691,7 @@
          * @param {Event} event - creation guide element
          */
         ScheduleDetailPopup.prototype._setPopupPositionAndArrowDirection = function (event) {
+          console.log("ScheduleDetailPopup.prototype._setPopupPositionAndArrowDirection");
           var layer = domutil.find(config.classname('.popup'), this.layer.container);
           var layerSize = {
             width: layer.offsetWidth,
@@ -23102,6 +23361,15 @@
           },
           'popupEdit-tmpl': function () {
             return 'Edit';
+          },
+          'popupComplete-tmpl': function () {
+            return 'Complete';
+          },
+          'popupCancel-tmpl': function () {
+            return 'Cancel';
+          },
+          'popupDownload-tmpl': function () {
+            return 'Download';
           },
           'popupDelete-tmpl': function () {
             return 'Delete';
@@ -24186,47 +24454,53 @@
 
             return "<div class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 1, "column": 12 }, "end": { "line": 1, "column": 26 } } }) : helper)))
-              + "popup\">\n    <div class=\""
+              + "popup\">\n    "
+              
+              + "<div class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 2, "column": 16 }, "end": { "line": 2, "column": 30 } } }) : helper)))
-              + "popup-container\">\n        <div class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 20 }, "end": { "line": 3, "column": 34 } } }) : helper)))
-              + "popup-section "
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 48 }, "end": { "line": 3, "column": 62 } } }) : helper)))
-              + "dropdown "
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 71 }, "end": { "line": 3, "column": 85 } } }) : helper)))
-              + "close "
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 91 }, "end": { "line": 3, "column": 105 } } }) : helper)))
-              + "section-calendar"
-              + ((stack1 = lookupProperty(helpers, "unless").call(alias1, ((stack1 = (depth0 != null ? lookupProperty(depth0, "calendars") : depth0)) != null ? lookupProperty(stack1, "length") : stack1), { "name": "unless", "hash": {}, "fn": container.program(1, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 3, "column": 121 }, "end": { "line": 3, "column": 179 } } })) != null ? stack1 : "")
-              + "\">\n            <button class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 4, "column": 27 }, "end": { "line": 4, "column": 41 } } }) : helper)))
-              + "button "
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 4, "column": 48 }, "end": { "line": 4, "column": 62 } } }) : helper)))
-              + "dropdown-button "
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 4, "column": 78 }, "end": { "line": 4, "column": 92 } } }) : helper)))
-              + "popup-section-item\">\n                <span class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 5, "column": 29 }, "end": { "line": 5, "column": 43 } } }) : helper)))
-              + "icon "
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 5, "column": 48 }, "end": { "line": 5, "column": 62 } } }) : helper)))
-              + "calendar-dot\" style=\"background-color: "
-              + alias4(alias5(((stack1 = (depth0 != null ? lookupProperty(depth0, "selectedCal") : depth0)) != null ? lookupProperty(stack1, "bgColor") : stack1), depth0))
-              + "\"></span>\n                <span id=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 6, "column": 26 }, "end": { "line": 6, "column": 40 } } }) : helper)))
-              + "schedule-calendar\" class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 6, "column": 66 }, "end": { "line": 6, "column": 80 } } }) : helper)))
-              + "content\">"
-              + alias4(alias5(((stack1 = (depth0 != null ? lookupProperty(depth0, "selectedCal") : depth0)) != null ? lookupProperty(stack1, "name") : stack1), depth0))
-              + "</span>\n                <span class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 7, "column": 29 }, "end": { "line": 7, "column": 43 } } }) : helper)))
-              + "icon "
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 7, "column": 48 }, "end": { "line": 7, "column": 62 } } }) : helper)))
-              + "dropdown-arrow\"></span>\n            </button>\n            <ul class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 9, "column": 23 }, "end": { "line": 9, "column": 37 } } }) : helper)))
-              + "dropdown-menu\" style=\"z-index: "
-              + alias4(((helper = (helper = lookupProperty(helpers, "zIndex") || (depth0 != null ? lookupProperty(depth0, "zIndex") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "zIndex", "hash": {}, "data": data, "loc": { "start": { "line": 9, "column": 68 }, "end": { "line": 9, "column": 78 } } }) : helper)))
-              + "\">\n"
-              + ((stack1 = lookupProperty(helpers, "each").call(alias1, (depth0 != null ? lookupProperty(depth0, "calendars") : depth0), { "name": "each", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 10, "column": 16 }, "end": { "line": 15, "column": 25 } } })) != null ? stack1 : "")
-              + "            </ul>\n        </div>\n        <div class=\""
+              + "popup-container\">\n"
+              
+              // + "        <div class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 20 }, "end": { "line": 3, "column": 34 } } }) : helper)))
+              // + "popup-section "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 48 }, "end": { "line": 3, "column": 62 } } }) : helper)))
+              // + "dropdown "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 71 }, "end": { "line": 3, "column": 85 } } }) : helper)))
+              // + "close "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 91 }, "end": { "line": 3, "column": 105 } } }) : helper)))
+              // + "section-calendar"
+              // + ((stack1 = lookupProperty(helpers, "unless").call(alias1, ((stack1 = (depth0 != null ? lookupProperty(depth0, "calendars") : depth0)) != null ? lookupProperty(stack1, "length") : stack1), { "name": "unless", "hash": {}, "fn": container.program(1, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 3, "column": 121 }, "end": { "line": 3, "column": 179 } } })) != null ? stack1 : "")
+              // + "\">\n            <button class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 4, "column": 27 }, "end": { "line": 4, "column": 41 } } }) : helper)))
+              // + "button "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 4, "column": 48 }, "end": { "line": 4, "column": 62 } } }) : helper)))
+              // + "dropdown-button "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 4, "column": 78 }, "end": { "line": 4, "column": 92 } } }) : helper)))
+              // + "popup-section-item\">\n                <span class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 5, "column": 29 }, "end": { "line": 5, "column": 43 } } }) : helper)))
+              // + "icon "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 5, "column": 48 }, "end": { "line": 5, "column": 62 } } }) : helper)))
+              // + "calendar-dot\" style=\"background-color: "
+              // + alias4(alias5(((stack1 = (depth0 != null ? lookupProperty(depth0, "selectedCal") : depth0)) != null ? lookupProperty(stack1, "bgColor") : stack1), depth0))
+              // + "\"></span>\n                <span id=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 6, "column": 26 }, "end": { "line": 6, "column": 40 } } }) : helper)))
+              // + "schedule-calendar\" class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 6, "column": 66 }, "end": { "line": 6, "column": 80 } } }) : helper)))
+              // + "content\">"
+              // + alias4(alias5(((stack1 = (depth0 != null ? lookupProperty(depth0, "selectedCal") : depth0)) != null ? lookupProperty(stack1, "name") : stack1), depth0))
+              // + "</span>\n                <span class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 7, "column": 29 }, "end": { "line": 7, "column": 43 } } }) : helper)))
+              // + "icon "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 7, "column": 48 }, "end": { "line": 7, "column": 62 } } }) : helper)))
+              // + "dropdown-arrow\"></span>\n            </button>\n            <ul class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 9, "column": 23 }, "end": { "line": 9, "column": 37 } } }) : helper)))
+              // + "dropdown-menu\" style=\"z-index: "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "zIndex") || (depth0 != null ? lookupProperty(depth0, "zIndex") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "zIndex", "hash": {}, "data": data, "loc": { "start": { "line": 9, "column": 68 }, "end": { "line": 9, "column": 78 } } }) : helper)))
+              // + "\">\n"
+              // + ((stack1 = lookupProperty(helpers, "each").call(alias1, (depth0 != null ? lookupProperty(depth0, "calendars") : depth0), { "name": "each", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 10, "column": 16 }, "end": { "line": 15, "column": 25 } } })) != null ? stack1 : "")
+              // + "            </ul>\n        </div>\n"
+              
+              + "        <div class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 18, "column": 20 }, "end": { "line": 18, "column": 34 } } }) : helper)))
               + "popup-section\">\n            <div class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 19, "column": 24 }, "end": { "line": 19, "column": 38 } } }) : helper)))
@@ -24610,29 +24884,88 @@
             console.log("When 15 was called");
             return "    <div class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 22, "column": 16 }, "end": { "line": 22, "column": 30 } } }) : helper)))
-              + "section-button\">\n      <button class=\""
+              + "section-button\">\n"
+
+              // Edit button
+              + "<button class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 21 }, "end": { "line": 23, "column": 35 } } }) : helper)))
-              + "popup-edit\"><span class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 60 }, "end": { "line": 23, "column": 74 } } }) : helper)))
-              + "icon "
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 79 }, "end": { "line": 23, "column": 93 } } }) : helper)))
-              + "ic-edit\"></span><span class=\""
+              + "popup-edit\">"
+              // icon
+              // +"<span class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 60 }, "end": { "line": 23, "column": 74 } } }) : helper)))
+              // + "icon "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 79 }, "end": { "line": 23, "column": 93 } } }) : helper)))
+              // + "ic-edit\"></span>"
+              + "<span class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 122 }, "end": { "line": 23, "column": 136 } } }) : helper)))
               + "content\">"
               + ((stack1 = ((helper = (helper = lookupProperty(helpers, "popupEdit-tmpl") || (depth0 != null ? lookupProperty(depth0, "popupEdit-tmpl") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "popupEdit-tmpl", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 145 }, "end": { "line": 23, "column": 165 } } }) : helper))) != null ? stack1 : "")
-              + "</span></button>\n      <div class=\""
+              + "</span>"
+              + "</button>\n"
+
+
+              //Vertical line
+              + "<div class=\""
               + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 24, "column": 18 }, "end": { "line": 24, "column": 32 } } }) : helper)))
-              + "popup-vertical-line\"></div>\n      <button class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 21 }, "end": { "line": 25, "column": 35 } } }) : helper)))
-              + "popup-delete\"><span class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 62 }, "end": { "line": 25, "column": 76 } } }) : helper)))
-              + "icon "
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 81 }, "end": { "line": 25, "column": 95 } } }) : helper)))
-              + "ic-delete\"></span><span class=\""
-              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 126 }, "end": { "line": 25, "column": 140 } } }) : helper)))
+              + "popup-vertical-line\"></div>\n"
+
+
+              // Complete button
+              + "<button class=\""
+              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 21 }, "end": { "line": 23, "column": 35 } } }) : helper)))
+              + "popup-complete\">"
+              + "<span class=\""
+              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 122 }, "end": { "line": 23, "column": 136 } } }) : helper)))
               + "content\">"
-              + ((stack1 = ((helper = (helper = lookupProperty(helpers, "popupDelete-tmpl") || (depth0 != null ? lookupProperty(depth0, "popupDelete-tmpl") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "popupDelete-tmpl", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 149 }, "end": { "line": 25, "column": 171 } } }) : helper))) != null ? stack1 : "")
-              + "</span></button>\n    </div>\n";
+              + ((stack1 = ((helper = (helper = lookupProperty(helpers, "popupComplete-tmpl") || (depth0 != null ? lookupProperty(depth0, "popupComplete-tmpl") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "popupComplete-tmpl", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 145 }, "end": { "line": 23, "column": 165 } } }) : helper))) != null ? stack1 : "")
+              + "</span>"
+              + "</button>\n"
+
+
+              //Vertical line
+              + "<div class=\""
+              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 24, "column": 18 }, "end": { "line": 24, "column": 32 } } }) : helper)))
+              + "popup-vertical-line\"></div>\n"
+
+
+              // Cancel button
+              + "<button class=\""
+              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 21 }, "end": { "line": 23, "column": 35 } } }) : helper)))
+              + "popup-cancel\">"
+              + "<span class=\""
+              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 122 }, "end": { "line": 23, "column": 136 } } }) : helper)))
+              + "content\">"
+              + ((stack1 = ((helper = (helper = lookupProperty(helpers, "popupCancel-tmpl") || (depth0 != null ? lookupProperty(depth0, "popupCancel-tmpl") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "popupCancel-tmpl", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 145 }, "end": { "line": 23, "column": 165 } } }) : helper))) != null ? stack1 : "")
+              + "</span>"
+              + "</button>\n"
+
+              
+              // Cancel button
+              + "<button class=\""
+              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 21 }, "end": { "line": 23, "column": 35 } } }) : helper)))
+              + "popup-download\">"
+              + "<span class=\""
+              + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 122 }, "end": { "line": 23, "column": 136 } } }) : helper)))
+              + "content\">"
+              + ((stack1 = ((helper = (helper = lookupProperty(helpers, "popupDownload-tmpl") || (depth0 != null ? lookupProperty(depth0, "popupDownload-tmpl") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "popupDownload-tmpl", "hash": {}, "data": data, "loc": { "start": { "line": 23, "column": 145 }, "end": { "line": 23, "column": 165 } } }) : helper))) != null ? stack1 : "")
+              + "</span>"
+              + "</button>\n"
+
+
+              // Delete button
+              // +"<button class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 21 }, "end": { "line": 25, "column": 35 } } }) : helper)))
+              // + "popup-delete\"><span class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 62 }, "end": { "line": 25, "column": 76 } } }) : helper)))
+              // + "icon "
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 81 }, "end": { "line": 25, "column": 95 } } }) : helper)))
+              // + "ic-delete\"></span><span class=\""
+              // + alias4(((helper = (helper = lookupProperty(helpers, "CSS_PREFIX") || (depth0 != null ? lookupProperty(depth0, "CSS_PREFIX") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "CSS_PREFIX", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 126 }, "end": { "line": 25, "column": 140 } } }) : helper)))
+              // + "content\">"
+              // + ((stack1 = ((helper = (helper = lookupProperty(helpers, "popupDelete-tmpl") || (depth0 != null ? lookupProperty(depth0, "popupDelete-tmpl") : depth0)) != null ? helper : alias2), (typeof helper === alias3 ? helper.call(alias1, { "name": "popupDelete-tmpl", "hash": {}, "data": data, "loc": { "start": { "line": 25, "column": 149 }, "end": { "line": 25, "column": 171 } } }) : helper))) != null ? stack1 : "")
+              // + "</span></button>\n"
+              
+              +"    </div>\n";
           }, "compiler": [8, ">= 4.3.0"], "main": function (container, depth0, helpers, partials, data) {
             var stack1, helper, alias1 = depth0 != null ? depth0 : (container.nullContext || {}), alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, alias5 = container.lambda, lookupProperty = container.lookupProperty || function (parent, propertyName) {
               if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -26030,6 +26363,7 @@
         View.prototype.render = function () {
           this.children.each(function (childView) {
             childView.render();
+            console.log("childView.render();");
           });
         };
 
@@ -26322,6 +26656,7 @@
 
           this.children.each(function (childView) {
             childView.render(viewModel);
+            console.log("childView.render(viewModel);");
           }, this);
 
           this.fire('afterRender', baseViewModel);
@@ -26362,6 +26697,7 @@
 
             if (this.parent) {
               this.parent.render();
+              console.log("this.parent.render();");
             }
           }, this);
         };
@@ -26378,6 +26714,7 @@
 
             if (this.parent) {
               this.parent.render();
+              console.log("this.parent.render();");
             }
           }, this);
         };
@@ -27612,6 +27949,7 @@
               theme
             );
             child.render(ymd, schedules, containerHeight);
+            console.log("child.render(ymd, schedules, containerHeight);");
 
             self.addChild(child);
 
@@ -27712,6 +28050,7 @@
 
             if (needsRender) {
               this.render(viewModel);
+              console.log("this.render(viewModel);");
             } else {
               util.forEach(hourmarkers, function (hourmarker) {
                 var todaymarker = domutil.find(
@@ -28050,6 +28389,7 @@
             var matrices;
             var viewName = util.pick(childView.options, 'viewName');
             childView.render(viewModel);
+            console.log("childView.render(viewModel);");
 
             if (viewName) {
               matrices = viewModel.schedulesInDateRange[viewName]; // DayGrid limits schedule count by visibleScheduleCount after rendering it.

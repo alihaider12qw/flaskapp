@@ -15,6 +15,9 @@ Flask-WTF==1.0.0
 
 # Others
 pytz
+beautifulsoup4
+pdfkit
+html5lib
 
 # Automated tests
 # pytest==3.0.5

@@ -48,10 +48,10 @@ if (yesCalendar != undefined) {
                 saveNewSchedule(e);
             },
             'beforeUpdateSchedule': function (e) {
+                console.log('cal.on beforeUpdateSchedule', e);
+                
                 var schedule = e.schedule;
                 var changes = e.changes;
-
-                console.log('beforeUpdateSchedule', e);
 
                 if (changes && !changes.isAllDay && schedule.category === 'allday') {
                     changes.category = 'time';
@@ -300,17 +300,26 @@ if (yesCalendar != undefined) {
 
             const userAction = async () => {
                 schedule.user_id = document.getElementById("user_id").value;
+                console.log("Calling fetch create_schedule with",JSON.stringify(schedule));
                 const response = await fetch('/create_schedule', {
                     method: 'POST',
                     body: JSON.stringify(schedule), // string or object
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                });
+                }).then(function (response) {
+                    console.log("response");
+                    console.log(response.status); // Will show you the status
+                    console.log(response);
+                    if (!response.ok) {
+                      alert("Unexpected error occured.");
+                    }else{
+                        window.location.reload(); // For id
+                    }
+                  });;
                 const myJson = await response.json(); //extract JSON from the http response
                 console.log("myJson");
                 console.log(myJson);
-                //   window.location.reload(); // For id
             }
             userAction();
 

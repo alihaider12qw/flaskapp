@@ -659,11 +659,11 @@
   visibility: hidden;
 }
 .tui-full-calendar-section-title {
-  width: calc(100% - 36px);
+  width: calc(100% - 56px);
   padding-right: 4px;
 }
 .tui-full-calendar-section-title input {
-  width: 365px;
+  width: 345px;
 }
 .tui-full-calendar-button.tui-full-calendar-section-private {
   height: 32px;
@@ -1078,10 +1078,13 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
   top: 2px;
 }
 .tui-full-calendar-popup-edit,
+.tui-full-calendar-popup-complete,
+.tui-full-calendar-popup-cancel,
+.tui-full-calendar-popup-download,
 .tui-full-calendar-popup-delete {
   display: inline-block;
   padding: 7px 9px 11px 9px;
-  width: calc(50% - 1px);
+  width: calc(25% - 1px);
   outline: none;
   background: none;
   border: none;

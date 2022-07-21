@@ -8,6 +8,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, validators
 from app import db
 from sqlalchemy.sql import func
+from enum import Enum
 
 
 class Doctor(db.Model):
@@ -140,3 +141,14 @@ class Schedule(db.Model):
             'user': self.user.to_json()
         }
         return json_obj
+
+
+#enums
+
+class HtmlType(Enum):
+    File = 1
+    String = 2
+
+    @classmethod
+    def has_value(cls, value):
+        return value in cls._value2member_map_
