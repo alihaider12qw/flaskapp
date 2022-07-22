@@ -25,6 +25,8 @@ test = "test.html"
 
 
 def generate_pdf_from_html(html_type, filename, html):
+    print("html_type, filename, html")
+    print(html_type, filename, html)
     try:
         if html_type == models.HtmlType.File.value:
             pdf_name = "app/static/htmls/"+filename[:-4]+'pdf'
@@ -267,5 +269,9 @@ def test_jusst():
             models.HtmlType.String.value, "testfile.html", html)
         if filed:
             return send_file(filed[4:], as_attachment=True), 200
+        else:
+            print("not filed")
+    else:
+        print("not html")
 
     return jsonify({"status": "fail", "err": "Invoice could not be generated."}), 400
