@@ -252,7 +252,7 @@ def create_schedule():
 
 
 @api_blueprint.route('/testfile', methods=["GET"])
-def test_just_file():
+def test_just():
     template_name = test
     updates = [
         {
